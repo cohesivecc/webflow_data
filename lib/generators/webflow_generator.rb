@@ -1,5 +1,9 @@
-WEBFLOW_API_TOKEN = ENV[WEBFLOW_API_TOKEN]
-WEBFLOW_SITE_ID   = ENV[WEBFLOW_SITE_ID]
+class WebflowGenerator < Rails::Generators::Base
+  def create_initializer_file
+    create_file "config/initializers/webflow.rb",
+
+%q{WEBFLOW_API_TOKEN = nil
+WEBFLOW_SITE_ID   = nil
 
 
 # need to expose the raw HTTP methods to proxy requests
@@ -20,4 +24,6 @@ collections = Webflow::Collection.all(WEBFLOW_SITE_ID)
 
 collections.each do |c|
   Object.const_set(c.singular_name.delete(" "), Class.new(Item)) unless models.include?(c.singular_name.delete(" ")) # create model unless we have already defined it
+end}
+  end
 end

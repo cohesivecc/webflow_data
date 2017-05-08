@@ -15,7 +15,7 @@ class CreateWebflowDataItems < ActiveRecord::Migration[5.0]
       t.date :published_by
       t.string :collection_type
       t.jsonb :webflow_data
-      t.belongs_to :collection, foreign_key: true
+      t.belongs_to :webflow_data_collections, foreign_key: true
 
       t.timestamps
     end

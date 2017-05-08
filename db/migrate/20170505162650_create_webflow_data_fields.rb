@@ -8,7 +8,7 @@ class CreateWebflowDataFields < ActiveRecord::Migration[5.0]
       t.boolean :required
       t.hstore :validations
       t.string :field_type
-      t.belongs_to :collection, foreign_key: true
+      t.belongs_to :webflow_data_collections, foreign_key: true
 
       t.timestamps
     end

@@ -3,7 +3,7 @@ module WebflowData
     store_accessor :webflow_data
     serialize :webflow_data, Hash
     self.inheritance_column = :collection_type
-    belongs_to :collection
+    belongs_to :collection, class_name: 'WebflowData::Collection'
 
     def as_json(options = nil)
       self.webflow_data
@@ -28,6 +28,6 @@ module WebflowData
         super
       end
     end
-    
+
   end
 end

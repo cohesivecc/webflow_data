@@ -1,6 +1,5 @@
 class CreateWebflowDataCollections < ActiveRecord::Migration[5.0]
   def change
-    enable_extension "hstore"
     create_table :webflow_data_collections do |t|
       t.string :webflow_id
       t.jsonb :webflow_data
@@ -12,6 +11,6 @@ class CreateWebflowDataCollections < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
-    add_index :collections, :webflow_data, using: :gin
+    add_index :webflow_data_collections, :webflow_data, using: :gin
   end
 end
