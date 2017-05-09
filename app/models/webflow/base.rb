@@ -1,8 +1,6 @@
 module Webflow
   class Base
 
-    CLIENT = Webflow::Client.new(WEBFLOW_API_TOKEN)
-
     attr_writer :_data
 
     def method_missing(method_name)
@@ -47,7 +45,9 @@ module Webflow
 
 
       def all(method, *args)
-        if resp = CLIENT.send(method, *args)
+        client = WebflowData.client
+        raise Exception.new("Client not configured correctly") and return unless client
+        if resp = client.send(method, *args)
           if resp[0].is_a?(Hash) && resp[0]['err']
             raise Exception.new("Webflow API Error: #{resp['code']} - #{resp['err']}.")
           else
@@ -59,7 +59,9 @@ module Webflow
       end
 
       def find(method, *args)
-        if data = CLIENT.send(method, *args)
+        client = WebflowData.client
+        raise Exception.new("Client not configured correctly") and return unless client
+        if data = client.send(method, *args)
           self.new(data)
         else
           nil

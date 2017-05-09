@@ -3,8 +3,14 @@ class WebflowGenerator < Rails::Generators::Base
     create_file "config/initializers/webflow.rb",
 
 %q{# Imported from webflow_data generator
-WEBFLOW_API_TOKEN = nil
-WEBFLOW_SITE_ID   = nil
+require File.join(Rails.root, "lib/client.rb")
+
+
+# AREND
+WebflowData.configure do |config|
+  config.api_token = "" # Enter your api credentials here
+  config.site_id   = ""
+end
 
 
 # need to expose the raw HTTP methods to proxy requests

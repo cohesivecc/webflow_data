@@ -1,7 +1,7 @@
 desc "Import the Collections from Webflow"
 task import_collections: :environment do
   WebflowData::Collection.destroy_all
-  @collections = Webflow::Collection.all(WEBFLOW_SITE_ID)
+  @collections = Webflow::Collection.all()
 
   @collections.each do |c|
     collection = WebflowData::Collection.new(

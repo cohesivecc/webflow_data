@@ -14,7 +14,7 @@ module WebflowData
     end
 
     def method_missing(method_name, *arguments, &block)
-      has_many_slugs = self.collection.fields.where(field_type: ["ItemRefSet", "ItemRef"]).pluck(:slug)
+      has_many_slugs = self.webflow_data_collection.fields.where(field_type: ["ItemRefSet", "ItemRef"]).pluck(:slug)
       matching_value = false
       webflow_data_slug_lookup = ""
       has_many_slugs.each do |hms|

@@ -12,8 +12,8 @@ module Webflow
 
     class << self
 
-      def all(site_id)
-        super('collections', site_id)
+      def all()
+        super('collections', WebflowData.config.site_id)
       end
 
       def find(id)
