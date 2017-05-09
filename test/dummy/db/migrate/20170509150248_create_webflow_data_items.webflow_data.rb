@@ -1,3 +1,4 @@
+# This migration comes from webflow_data (originally 20170504171112)
 class CreateWebflowDataItems < ActiveRecord::Migration[5.0]
   def change
     create_table :webflow_data_items do |t|

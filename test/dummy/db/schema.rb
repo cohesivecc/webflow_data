@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170508195510) do
+ActiveRecord::Schema.define(version: 20170509150249) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,10 +36,10 @@ ActiveRecord::Schema.define(version: 20170508195510) do
     t.boolean  "required"
     t.hstore   "validations"
     t.string   "field_type"
-    t.integer  "webflow_data_collections_id"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.index ["webflow_data_collections_id"], name: "index_webflow_data_fields_on_webflow_data_collections_id", using: :btree
+    t.integer  "collection_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["collection_id"], name: "index_webflow_data_fields_on_collection_id", using: :btree
   end
 
   create_table "webflow_data_items", force: :cascade do |t|
@@ -57,13 +57,13 @@ ActiveRecord::Schema.define(version: 20170508195510) do
     t.date     "published_by"
     t.string   "collection_type"
     t.jsonb    "webflow_data"
-    t.integer  "webflow_data_collections_id"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.integer  "collection_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.index ["collection_id"], name: "index_webflow_data_items_on_collection_id", using: :btree
     t.index ["webflow_data"], name: "index_webflow_data_items_on_webflow_data", using: :gin
-    t.index ["webflow_data_collections_id"], name: "index_webflow_data_items_on_webflow_data_collections_id", using: :btree
   end
 
-  add_foreign_key "webflow_data_fields", "webflow_data_collections", column: "webflow_data_collections_id"
-  add_foreign_key "webflow_data_items", "webflow_data_collections", column: "webflow_data_collections_id"
+  add_foreign_key "webflow_data_fields", "webflow_data_collections", column: "collection_id"
+  add_foreign_key "webflow_data_items", "webflow_data_collections", column: "collection_id"
 end

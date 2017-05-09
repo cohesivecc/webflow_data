@@ -12,7 +12,7 @@ task import_collections: :environment do
       webflow_id: c._id
     )
     c.fields.each do |f|
-      collection.fields << WebflowData::Field.create(
+      collection.fields << WebflowData::Field.new(
         webflow_id: f.webflow_data["id"],
         field_type: f.webflow_data["type"],
         slug: f.webflow_data["slug"],
@@ -22,7 +22,7 @@ task import_collections: :environment do
       )
     end
     c.items.each do |i|
-      collection.items << WebflowData::Item.create(
+      collection.items << WebflowData::Item.new(
         name: i.name,
         webflow_id: i._id,
         webflow_collection_id: i._cid,
@@ -33,6 +33,7 @@ task import_collections: :environment do
         collection_type: c.singular_name.delete(' ')
       )
     end
+
     collection.save
   end
 end

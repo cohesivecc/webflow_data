@@ -1,3 +1,4 @@
+# This migration comes from webflow_data (originally 20170505162650)
 class CreateWebflowDataFields < ActiveRecord::Migration[5.0]
   def change
     enable_extension "hstore"

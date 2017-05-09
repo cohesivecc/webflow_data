@@ -1,9 +1,13 @@
 module WebflowData
+  def self.table_name_prefix
+    'webflow_data_'
+  end
   class Item < ApplicationRecord
+    self.table_name = "webflow_data_items"
     store_accessor :webflow_data
     serialize :webflow_data, Hash
     self.inheritance_column = :collection_type
-    belongs_to :collection, class_name: 'WebflowData::Collection'
+    belongs_to :webflow_data_collection, class_name: "WebflowData::Collection", optional: true, foreign_key: "webflow_data_collection_id"
 
     def as_json(options = nil)
       self.webflow_data
