@@ -7,7 +7,7 @@ module WebflowData
     store_accessor :webflow_data
     serialize :webflow_data, Hash
     self.inheritance_column = :collection_type
-    belongs_to :webflow_data_collection, class_name: "WebflowData::Collection", optional: true, foreign_key: "webflow_data_collection_id"
+    belongs_to :webflow_data_collection, class_name: "WebflowData::Collection", optional: true, foreign_key: "collection_id"
 
     def as_json(options = nil)
       self.webflow_data
