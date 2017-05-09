@@ -2,7 +2,8 @@ class WebflowGenerator < Rails::Generators::Base
   def create_initializer_file
     create_file "config/initializers/webflow.rb",
 
-%q{WEBFLOW_API_TOKEN = nil
+%q{# Imported from webflow_data generator
+WEBFLOW_API_TOKEN = nil
 WEBFLOW_SITE_ID   = nil
 
 
@@ -23,7 +24,7 @@ models = files.map{ |m| File.basename(m, '.rb').camelize } #get models so we don
 collections = Webflow::Collection.all(WEBFLOW_SITE_ID)
 
 collections.each do |c|
-  Object.const_set(c.singular_name.delete(" "), Class.new(Item)) unless models.include?(c.singular_name.delete(" ")) # create model unless we have already defined it
+  Object.const_set(c.singular_name.delete(" "), Class.new(WebflowData::Item)) unless models.include?(c.singular_name.delete(" ")) # create model unless we have already defined it
 end}
   end
 end
