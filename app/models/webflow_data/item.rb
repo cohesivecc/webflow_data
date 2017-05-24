@@ -1,4 +1,4 @@
-module WebflowData
+module ::WebflowData
   def self.table_name_prefix
     'webflow_data_'
   end
@@ -8,6 +8,11 @@ module WebflowData
     serialize :webflow_data, Hash
     self.inheritance_column = :collection_type
     belongs_to :webflow_data_collection, class_name: "WebflowData::Collection", optional: true, foreign_key: "collection_id"
+
+    default_scope { order("position ASC") }
+    scope :published, -> { where(_draft: false, _archived: false) }
+
+    before_save :set_position
 
     def as_json(options = nil)
       self.webflow_data
@@ -32,6 +37,12 @@ module WebflowData
         super
       end
     end
+
+    private
+
+      def set_position
+        self.position = self.webflow_data["position"] if self.webflow_data["position"]
+      end
 
   end
 end

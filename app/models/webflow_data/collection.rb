@@ -9,5 +9,48 @@ module WebflowData
 
     has_many :items, dependent: :destroy, class_name: "WebflowData::Item"
     has_many :fields, dependent: :destroy, class_name: "WebflowData::Field"
+
+
+    def self.import
+      self.destroy_all
+      @collections = Webflow::Collection.all()
+
+      @collections.each do |c|
+        collection = self.new(
+          name: c.name,
+          webflow_data: c.webflow_data,
+          singular_name: c.singular_name,
+          slug: c.slug,
+          webflow_id: c._id
+        )
+        c.fields.each do |f|
+          collection.fields << WebflowData::Field.new(
+            webflow_id: f.webflow_data["id"],
+            field_type: f.webflow_data["type"],
+            slug: f.webflow_data["slug"],
+            name: f.webflow_data["name"],
+            required: f.webflow_data["required"],
+            validations: f.webflow_data["validations"]
+          )
+        end
+        c.items.each do |i|
+          # puts i.inspect
+          collection.items << WebflowData::Item.new(
+            name: i.name,
+            webflow_id: i._id,
+            webflow_collection_id: i._cid,
+            _archived: i._archived,
+            _draft: i._draft,
+            published_on: i.published_on,
+            slug: i.slug,
+            webflow_data: i.webflow_data,
+            collection_type: c.singular_name.delete(' ')
+          )
+        end
+
+        collection.save
+      end
+    end
+
   end
 end
