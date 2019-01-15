@@ -47,16 +47,25 @@ module Webflow
       def all(method, *args)
         client = WebflowData.client
         raise Exception.new("Client not configured correctly") and return unless client
-        if resp = client.send(method, *args)
+
+        num_fetched = 0
+        data = []
+
+        loop do
+          args[:offset] = num_fetched
+          resp = client.send(method, *args)
           if resp[0].is_a?(Hash) && resp[0]['err']
             raise Exception.new("Webflow API Error: #{resp['code']} - #{resp['err']}.")
           else
-            resp.collect {|data| self.new(data) }
+            data += resp.collect {|data| self.new(data) }
           end
-        else
-          []
+          num_fetched = num_fetched + resp[0]['count']
+          break if num_fetched >= resp[0]['total']
         end
+
+        data
       end
+
 
       def find(method, *args)
         client = WebflowData.client
