@@ -1,8 +1,8 @@
 module Webflow
   class Collection < Base
 
-    def items
-      Webflow::Item.all(self.id)
+    def items(limit: 100)
+      Webflow::Item.all(self.id, limit: limit)
     end
 
     def fields

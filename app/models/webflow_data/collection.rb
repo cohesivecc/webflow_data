@@ -33,7 +33,7 @@ module WebflowData
             validations: f.webflow_data["validations"]
           )
         end
-        c.items.each do |i|
+        c.items(limit: 1000).each do |i|
           # puts i.inspect
           collection.items << WebflowData::Item.new(
             name: i.name,
