@@ -12,7 +12,7 @@ module WebflowData
     end
 
     def referenced_collection
-      self.reference_field? ? Collection.where(webflow_id: self.validations["collectionId"]) : nil
+      self.reference_field? ? Collection.where(webflow_id: self.validations["collectionId"]).first : nil
     end
 
   end
