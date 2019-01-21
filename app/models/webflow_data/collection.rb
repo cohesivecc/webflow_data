@@ -10,6 +10,12 @@ module WebflowData
     has_many :items, dependent: :destroy, class_name: "WebflowData::Item"
     has_many :fields, dependent: :destroy, class_name: "WebflowData::Field"
 
+    def application_class_name
+      self.singular_name.gsub(/\s/, '')
+    end
+    def application_class
+      self.application_class_name.constantize
+    end
 
     def self.import
       self.destroy_all
