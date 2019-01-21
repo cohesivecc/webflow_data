@@ -20,13 +20,13 @@ module ::WebflowData
 
     def method_missing(method_name, *arguments, &block)
 
-      # is the method in our webflow_data structure?
-      if item_ids = self.webflow_data[method_name.to_s]
-        # check for has_many relationships
-        self.webflow_data_collection.fields.where(field_type: ["ItemRefSet", "ItemRef"]).each do |f|
-          if f.slug.underscore == method_name.to_s
-            # found it
-            klass = f.referenced_collection.application_class
+      # check for has_many relationships
+      self.webflow_data_collection.fields.where(field_type: ["ItemRefSet", "ItemRef"]).each do |f|
+        if f.slug.underscore == method_name.to_s
+          # found it
+          klass = f.referenced_collection.application_class
+          # do we have any to look up?
+          if item_ids = self.webflow_data[method_name.to_s] || []
             # return objects of the correct class name for the application
             return klass.where(webflow_id: item_ids)
           end
@@ -34,30 +34,6 @@ module ::WebflowData
       end
 
       super
-      # has_many_slugs = self.webflow_data_collection.fields.where(field_type: ["ItemRefSet", "ItemRef"]).pluck(:slug)
-      # matching_value = false
-      # webflow_data_slug_lookup = ""
-      #
-      # has_many_slugs.each do |hms|
-      #   if(hms.underscore.include?(method_name.to_s))
-      #     matching_value = true
-      #     webflow_data_slug_lookup = hms
-      #   end
-      # end
-      #
-      # if matching_value
-      #
-      #   c_id = Field.where(slug: webflow_data_slug_lookup.to_s).first.validations["collectionId"]
-      #
-      #   lookup_collection = Collection.where(webflow_id: c_id).first.singular_name.delete(" ").constantize
-      #
-      #   associated_ids = self.webflow_data[webflow_data_slug_lookup.underscore]
-      #
-      #   return lookup_collection.where(webflow_id: associated_ids)
-      #
-      # else
-      #   super
-      # end
 
     end
 
