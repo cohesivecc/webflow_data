@@ -46,7 +46,7 @@ module ::WebflowData
         self.position = self.webflow_data["position"] if self.webflow_data["position"]
       end
 
-      def self.order_by_ids(ids)
+      def self.order_by_webflow_ids(ids)
 
         # "CASE #{ids.each_with_index {|wid, i| " WHEN webflow_id = '#{wid}' THEN #{i} "}} END"
         order_by = ["CASE"]
