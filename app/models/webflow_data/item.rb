@@ -47,7 +47,9 @@ module ::WebflowData
       end
 
       def self.order_by_webflow_ids(ids)
-        unless ids.blank?
+        if ids.blank?
+          order(nil)
+        else
           order_by = ["CASE"]
           ids.each_with_index do |id, index|
             order_by << "WHEN webflow_id='#{id}' THEN #{index}"
