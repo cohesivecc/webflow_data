@@ -28,7 +28,9 @@ module ::WebflowData
           # do we have any to look up?
           if item_ids = self.webflow_data[method_name.to_s] || []
             # return objects of the correct class name for the application
-            return klass.where(webflow_id: item_ids)
+            return klass.where(webflow_id: item_ids).sort_by do |x|
+              item_ids.index(x.webflow_id)
+            end
           end
         end
       end
