@@ -28,9 +28,10 @@ module ::WebflowData
           # do we have any to look up?
           if item_ids = self.webflow_data[method_name.to_s] || []
             # return objects of the correct class name for the application
-            return klass.where(webflow_id: item_ids).sort_by do |x|
-              item_ids.index(x.webflow_id)
-            end
+            return klass.where(webflow_id: item_ids).order_by_webflow_ids(item_ids)
+            # return klass.where(webflow_id: item_ids).sort_by do |x|
+            #   item_ids.index(x.webflow_id)
+            # end
           end
         end
       end
@@ -43,6 +44,17 @@ module ::WebflowData
 
       def set_position
         self.position = self.webflow_data["position"] if self.webflow_data["position"]
+      end
+
+      def self.order_by_ids(ids)
+
+        # "CASE #{ids.each_with_index {|wid, i| " WHEN webflow_id = '#{wid}' THEN #{i} "}} END"
+        order_by = ["CASE"]
+        ids.each_with_index do |id, index|
+          order_by << "WHEN webflow_id='#{id}' THEN #{index}"
+        end
+        order_by << "END"
+        order(order_by.join(" "))
       end
 
   end
