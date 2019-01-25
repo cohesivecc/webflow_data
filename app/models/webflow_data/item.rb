@@ -47,14 +47,14 @@ module ::WebflowData
       end
 
       def self.order_by_webflow_ids(ids)
-
-        # "CASE #{ids.each_with_index {|wid, i| " WHEN webflow_id = '#{wid}' THEN #{i} "}} END"
-        order_by = ["CASE"]
-        ids.each_with_index do |id, index|
-          order_by << "WHEN webflow_id='#{id}' THEN #{index}"
+        unless ids.blank?
+          order_by = ["CASE"]
+          ids.each_with_index do |id, index|
+            order_by << "WHEN webflow_id='#{id}' THEN #{index}"
+          end
+          order_by << "END"
+          order(order_by.join(" "))
         end
-        order_by << "END"
-        order(order_by.join(" "))
       end
 
   end
