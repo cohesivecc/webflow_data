@@ -5,7 +5,7 @@ module WebflowData
   class Collection < ApplicationRecord
     self.table_name = "webflow_data_collections"
     store_accessor :webflow_data
-    serialize :webflow_data, type: Hash#, coder: JSON
+    # serialize :webflow_data, type: Hash, coder: JSON
 
     has_many :items, dependent: :destroy, class_name: "WebflowData::Item"
     has_many :fields, dependent: :destroy, class_name: "WebflowData::Field"
