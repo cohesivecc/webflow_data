@@ -44,10 +44,10 @@ module Webflow
     class << self
 
 
-      def all(method, *args)
+      def all(method, *args, **kwargs)
         client = WebflowData.client
         raise Exception.new("Client not configured correctly") and return unless client
-        if resp = client.send(method, *args)
+        if resp = client.send(method, *args, **kwargs)
           if resp[0].is_a?(Hash) && resp[0]['err']
             raise Exception.new("Webflow API Error: #{resp['code']} - #{resp['err']}.")
           else
@@ -58,10 +58,10 @@ module Webflow
         end
       end
 
-      def find(method, *args)
+      def find(method, *args, **kwargs)
         client = WebflowData.client
         raise Exception.new("Client not configured correctly") and return unless client
-        if data = client.send(method, *args)
+        if data = client.send(method, *args, **kwargs)
           self.new(data)
         else
           nil

@@ -18,7 +18,7 @@ module ::WebflowData
       self.webflow_data
     end
 
-    def method_missing(method_name, *arguments, &block)
+    def method_missing(method_name, **arguments, &block)
 
       # check for has_many relationships
       self.webflow_data_collection.fields.where(field_type: ["ItemRefSet", "ItemRef"]).each do |f|
