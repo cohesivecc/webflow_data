@@ -5,7 +5,7 @@ module ::WebflowData
   class Item < ApplicationRecord
     self.table_name = "webflow_data_items"
     store_accessor :webflow_data
-    serialize :webflow_data, Hash
+    serialize :webflow_data, type: Hash, coder: JSON
     self.inheritance_column = :collection_type
     belongs_to :webflow_data_collection, class_name: "WebflowData::Collection", optional: true, foreign_key: "collection_id"
 
